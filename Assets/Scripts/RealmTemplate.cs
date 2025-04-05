@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class RealmTemplate : MonoBehaviour
 {
-    public GameObject primaryAgentPrefab;
-
     void Start()
     {
         // ✅ CAMERA
@@ -27,14 +25,16 @@ public class RealmTemplate : MonoBehaviour
 
         // ✅ REALM MANAGER HOOK
         GameObject manager = new GameObject("RealmManager");
-        manager.AddComponent<RealmLogic>(); // (We’ll create this next)
+        manager.AddComponent<RealmLogic>();
 
-        // ✅ SPAWN PRIMARY AGENT IF ASSIGNED
-        if (primaryAgentPrefab != null)
-        {
-            GameObject agent = Instantiate(primaryAgentPrefab);
-            agent.name = "PrimaryAgent";
-            agent.transform.position = new Vector3(0, 1, 0);
-        }
+        // ✅ AVA (CUBE) + LISTENER
+        GameObject ava = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        ava.name = "AvaObject";
+        ava.transform.position = new Vector3(0, 1, 0);
+        ava.SetActive(false); // Starts hidden
+
+        GameObject avaManager = new GameObject("AvaManager");
+        AvaCommandListener listener = avaManager.AddComponent<AvaCommandListener>();
+        listener.AvaObject = ava;
     }
 }
