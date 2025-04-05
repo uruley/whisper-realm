@@ -11,8 +11,8 @@ public class RealmTemplate : MonoBehaviour
         cam.transform.position = new Vector3(0, 5, -10);
         cam.transform.LookAt(Vector3.zero);
 
-        // ✅ LIGHTING
-        GameObject light = new GameObject("Directional Light");
+        // ✅ LIGHTING (with name fix)
+        GameObject light = new GameObject("SceneLight"); // <-- Name it for reliable lookup
         Light dirLight = light.AddComponent<Light>();
         dirLight.type = LightType.Directional;
         dirLight.intensity = 1.2f;
