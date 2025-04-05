@@ -21,7 +21,7 @@ public class AvaCommandListener : MonoBehaviour
             UnityWebRequest www = UnityWebRequest.Get(endpoint);
             yield return www.SendWebRequest();
 
-            if (!www.isNetworkError && !www.isHttpError)
+            if (www.result != UnityWebRequest.Result.ConnectionError && www.result != UnityWebRequest.Result.ProtocolError)
             {
                 string command = www.downloadHandler.text.Trim();
 
@@ -43,31 +43,32 @@ public class AvaCommandListener : MonoBehaviour
 
     void HandleCommand(string command)
     {
-        switch (command.ToLower())
+        command = command.ToLower();
+
+        if (command == "show_ava")
         {
-            case "show_ava":
-                AvaObject.SetActive(true);
-                Respond("Ava is here.");
-                break;
-
-            case "hide_ava":
-                AvaObject.SetActive(false);
-                Respond("Ava is hiding.");
-                break;
-
-            default:
-                Respond("I received an unknown command: " + command);
-                break;
+            AvaObject.SetActive(true);
+            Respond("Ava is here.");
+        }
+        else if (command == "hide_ava")
+        {
+            AvaObject.SetActive(false);
+            Respond("Ava is hiding.");
+        }
+        else if (command.StartsWith("spark:"))
+        {
+            string sparkText = command.Substring(6).Trim();
+            SparkSystem.TriggerSpark(sparkText);
+            Respond($"A spark has been triggered: {sparkText}");
+        }
+        else
+        {
+            Respond("I received an unknown command: " + command);
         }
     }
 
     void Respond(string message)
     {
-        // 🔵 Console confirmation
         Debug.Log("🧠 Ava says: " + message);
-
-        // 🔲 Future: UI pop-up or speech synthesis can go here
-        // e.g., DisplayOnUI(message);
-        // e.g., PlayVoiceLine(message);
     }
 }
