@@ -1,11 +1,7 @@
-using UnityEngine;
-
-public class SceneInitializer : MonoBehaviour
+void Start()
 {
-    void Start()
-    {
-        // Load the Realm system
-        GameObject realmRoot = new GameObject("Realm");
-        realmRoot.AddComponent<RealmTemplate>();
-    }
+    GameObject boot = new GameObject("Boot");
+    boot.AddComponent<RuntimeBoot>();
+
+    // The rest of your RealmTemplate or manual setup will follow...
 }
