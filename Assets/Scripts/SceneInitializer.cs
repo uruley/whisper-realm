@@ -6,6 +6,7 @@ public class SceneInitializer : MonoBehaviour
     {
         GameObject cam = new GameObject("MainCamera");
         cam.AddComponent<Camera>();
+        cam.tag = "MainCamera";
         cam.transform.position = new Vector3(0, 5, -10);
         cam.transform.LookAt(Vector3.zero);
 
