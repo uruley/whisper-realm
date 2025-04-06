@@ -21,3 +21,4 @@ public class SceneInitializer : MonoBehaviour
         cube.transform.position = new Vector3(0, 1, 0);
     }
 }
+
