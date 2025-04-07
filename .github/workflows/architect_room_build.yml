@@ -1,0 +1,33 @@
+name: Architect Room Auto-Build
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-architect-room:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Whisper Realm repo
+      uses: actions/checkout@v4
+    
+    - name: Setup Environment
+      run: |
+        echo "Setting up environment"
+        sudo apt-get update -y
+        sudo apt-get install -y tree
+    
+    - name: Generate Architect Room Scene
+      run: |
+        chmod +x ./scripts/generate_architect_room.sh
+        ./scripts/generate_architect_room.sh
+        tree scenes/architect_room
+    
+    - name: Commit Scene Back to Repo
+      run: |
+        git config user.name "whisper-bot"
+        git config user.email "whisper-bot@whisper.com"
+        git add .
+        git commit -m "GitHub Actions automated Architect Room build" || echo "Nothing new to commit"
+        git push origin main
